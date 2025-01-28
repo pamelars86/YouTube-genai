@@ -12,11 +12,13 @@ The application is fully containerized with Docker for easy setup and deployment
 ## Prerequisites
 
 Before starting, ensure you have the following installed:
-- Docker and Docker Compose
-- A Google Cloud service account with access to YouTube Data API
-- The following files ready in the project directory:
-  - `.env`: Contains your API key
-  - `client_secrets.json`: Configured for your service account
+- **Docker** and **Docker Compose**.
+- A **Google Cloud service account** with access to the **YouTube Data API**.
+
+Make sure the following files are available in your project directory:
+- `.env`: Contains your **API key**.
+- `client_secrets.json`: Configured for your **Google Cloud service account**.
+- **Downloaded model**: Ensure you have the required model, such as `llama3.1`, available in the correct directory.
 
 ---
 
@@ -49,7 +51,12 @@ Example `client_secrets.json` format:
     }
 }
 ```
-### 3. Build and Run the Dockerized App
+
+### 3. Install dependencies: If you’re using Python-based dependencies, run:
+```bash
+poetry install
+```
+### 4. Build and Run the Dockerized App
 
 Run the following commands to build and start the application:
 
