@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "YouTube-genai"
+version = "0.1.0"
+description = ""
+authors = ["Pamela Rosales"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.12"
+flask = "^3.1.0"
+google-api-python-client = "^2.153.0"
+openai = "^1.54.4"
+youtube-transcript-api = "^0.6.2"
+google-auth-oauthlib = "^1.2.1"
+python-dotenv = "^1.0.1"
+logger = "^1.4"
+logging = "^0.4.9.6"
+moviepy = "^2.1.1"
+whisper = "^1.1.10"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
