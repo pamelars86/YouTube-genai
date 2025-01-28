@@ -12,6 +12,8 @@ COPY . /app
 
 RUN pip install poetry
 RUN poetry install --only main --no-root
+# RUN poetry install --no-dev
+
 RUN poetry show
 
 EXPOSE 5000
