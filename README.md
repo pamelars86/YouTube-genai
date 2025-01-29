@@ -3,7 +3,7 @@
 This project leverages Generative AI (GenAI) to perform two main functionalities:
 
 1. **Video Summary**: Generates a concise summary of a YouTube video based on its transcript, description, and title.
-2. **Medium-style Blog Post**: Creates a detailed blog post in the style of Medium articles using the same input data.
+2. **Style Blog Post**: Creates a detailed blog post in the style of Medium articles using the same input data.
 
 The application is fully containerized with Docker for easy setup and deployment.
 
