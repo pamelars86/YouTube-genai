@@ -53,11 +53,11 @@ Once your Docker container is running, you can verify the models that are instal
 docker exec -it ollama ollama list
 ```
 This will list all the models available in your Ollama container, and you should see something similar to:
-
+```
 NAME                  ID       SIZE      MODIFIED
 deepseek-r1:latest    0a8cX    4.7 GB    4 minutes ago
 llama3.1:latest       46e0X    4.9 GB    2 hours ago
-
+```
 ---
 
 ## Setup
