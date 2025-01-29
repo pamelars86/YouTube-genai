@@ -32,7 +32,7 @@ def summarize_transcript(transcript, title=None, description=None):
         context += f"Descripción del video: {description}\n"
 
     prompt = (
-            f"Tarea: Escribe un resumen en español sobre el siguiente video. El resumen debe tener un máximo de 500 palabras, "
+            f"Tarea: Escribe un resumen en inglés sobre el siguiente video. El resumen debe tener un máximo de 500 palabras, "
             "ser conciso y claro. Estructúralo de la siguiente manera: \n"
             "1. **Introducción**: Breve presentación del tema y su importancia, mencionar brevemente a las personas involucradas del video.\n"
             "2. **Puntos clave**: Expande los puntos más relevantes del transcript.\n"
@@ -43,7 +43,7 @@ def summarize_transcript(transcript, title=None, description=None):
     logger.info(f"prompt para resumen: {prompt[:1000]}")
 
     stream = ollama.chat(
-        model="llama3.1",
+        model="deepseek-r1",
         messages=[{'role': 'user', 'content': prompt}],
         stream=True,
     )
@@ -79,13 +79,15 @@ def generate_blog_post(transcript, title=None, description=None):
         "- **¿Cómo esto puede ayudar al lector?**: Relaciona el caso con situaciones que los lectores podrían enfrentar.\n"
         "- **Conclusión y próximos pasos**: Resume lo discutido y lleva al lector a reflexionar sobre el impacto del tema.\n"
         "- **Artículos relacionados o próximos artículos**: Menciona artículos publicados o temas que serán tratados en el futuro.\n\n"
+        "- **IDIOMA DEL BLOG TÉCNICO: INGLÉS.\n\n"
+
         f"**Contexto del video**:\n{context}\n\n"
         f"**Transcript**:\n{cleaned_transcript}\n\n"
     )
 
     logger.info(f"prompt para blog: {prompt[:1000]}")
     stream = ollama.chat(
-        model="llama3.1",
+        model="deepseek-r1",
         messages=[{'role': 'user', 'content': prompt}],
         stream=True,
     )
