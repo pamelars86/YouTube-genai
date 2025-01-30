@@ -2,9 +2,6 @@ import os
 from app import logger
 import ollama
 
-# Configuración de la URL base del servidor Ollama
-ollama_host = "http://ollama:11434"  # Cambia si usas otro puerto o configuración
-
 def extract_response_text(stream):
     response_text = ""
     for chunk in stream:
@@ -17,8 +14,6 @@ def extract_response_text(stream):
 
 
 def summarize_transcript(transcript, title=None, description=None):
-    #tomado de https://docs.anthropic.com/en/prompt-library/meeting-scribe
-
     if not transcript:
         return "Error: Transcript is unavailable. Cannot generate a summary."
 
@@ -27,9 +22,9 @@ def summarize_transcript(transcript, title=None, description=None):
 
     context = ""
     if title:
-        context += f"Título del video: {title}\n"
+        context += f"Video title: {title}\n"
     if description:
-        context += f"Descripción del video: {description}\n"
+        context += f"Video description: {description}\n"
 
     prompt = (
             "Summarize the following video in **English**, even if the transcript is in another language. "
@@ -41,7 +36,7 @@ def summarize_transcript(transcript, title=None, description=None):
             f"**Video Context**:\n{context}\n\n"
             f"**Transcript**:\n{cleaned_transcript}\n\n"
         )
-    logger.info(f"prompt para resumen: {prompt[:1000]}")
+    logger.info(f"Prompt for summary: {prompt[:1000]}")
 
     stream = ollama.chat(
         model="deepseek-r1",
