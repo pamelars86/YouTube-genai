@@ -2,9 +2,6 @@ import os
 from app import logger
 import ollama
 
-# Configuración de la URL base del servidor Ollama
-ollama_host = "http://ollama:11434"  # Cambia si usas otro puerto o configuración
-
 def extract_response_text(stream):
     response_text = ""
     for chunk in stream:
@@ -17,8 +14,6 @@ def extract_response_text(stream):
 
 
 def summarize_transcript(transcript, title=None, description=None):
-    #tomado de https://docs.anthropic.com/en/prompt-library/meeting-scribe
-
     if not transcript:
         return "Error: Transcript is unavailable. Cannot generate a summary."
 
@@ -27,20 +22,21 @@ def summarize_transcript(transcript, title=None, description=None):
 
     context = ""
     if title:
-        context += f"Título del video: {title}\n"
+        context += f"Video title: {title}\n"
     if description:
-        context += f"Descripción del video: {description}\n"
+        context += f"Video description: {description}\n"
 
     prompt = (
-            f"Tarea: Escribe un resumen en inglés sobre el siguiente video. El resumen debe tener un máximo de 500 palabras, "
-            "ser conciso y claro. Estructúralo de la siguiente manera: \n"
-            "1. **Introducción**: Breve presentación del tema y su importancia, mencionar brevemente a las personas involucradas del video.\n"
-            "2. **Puntos clave**: Expande los puntos más relevantes del transcript.\n"
-            "3. **Conclusión**: Resumen de lo aprendido en el video y relevancia del tema.\n\n"
-            f"**Contexto del video**:\n{context}\n\n"
+            "Summarize the following video in **English**, even if the transcript is in another language. "
+            "Translate key points if needed and ensure clarity and coherence. "
+            "Keep the summary **concise, structured, and under 500 words**:\n\n"
+            "1. **Introduction**: Briefly introduce the topic and its importance.\n"
+            "2. **Key Points**: Highlight the main insights.\n"
+            "3. **Conclusion**: Summarize key takeaways.\n\n"
+            f"**Video Context**:\n{context}\n\n"
             f"**Transcript**:\n{cleaned_transcript}\n\n"
         )
-    logger.info(f"prompt para resumen: {prompt[:1000]}")
+    logger.info(f"Prompt for summary: {prompt[:1000]}")
 
     stream = ollama.chat(
         model="deepseek-r1",
@@ -59,33 +55,28 @@ def generate_blog_post(transcript, title=None, description=None):
     cleaned_transcript = " ".join(cleaned_transcript.splitlines())
     context = ""
     if title:
-        context += f"Título del video: {title}\n"
+        context += f"Video title: {title}\n"
     if description:
-        context += f"Descripción del video: {description}\n"
+        context += f"Video description: {description}\n"
 
     prompt = (
-        f"Tarea: Escribe un artículo técnico en inglés para mi blog técnico en Medium basado en el contexto del video y el transcript proporcionados. "
-        "El artículo debe tener entre 1500 y 1800 palabras, manteniendo un tono claro, preciso y cercano, ideal para desarrolladores y empresas de tecnología. "
-        "Asegúrate de que el contenido sea comprensible para una audiencia externa, proporcionando el contexto necesario"
-        "Verifica la exactitud técnica, explica conceptos complejos de manera coherente y añade ejemplos prácticos para inspirar a los lectores. "
-        "Haz ajustes que mejoren la fluidez y conexión del texto con la audiencia, manteniendo un enfoque profesional e informativo. "
-        "Incluye un call to action que ofrezca valor al lector, invitándolo a reflexionar, participar o aplicar los conocimientos adquiridos. "
-        "Sugiere referencias o enlaces adicionales si encuentras afirmaciones sin respaldo o datos que necesitan contexto. "
-        "Sigue la siguiente estructura: \n\n"
-        "- **Introducción**: Presenta el tema del artículo, destacando qué encontrará el lector. Utiliza preguntas para interpelar al lector.\n"
-        "- **Definición del problema**: Explica en detalle el problema que enfrentaron.\n"
-        "- **¿Cómo solucionaron ese problema?**: Describe con precisión cómo lograron resolver el problema, incluyendo detalles clave.\n"
-        "- **Desafíos y lecciones aprendidas**: Expón los retos encontrados durante el proceso y los aprendizajes obtenidos.\n"
-        "- **¿Cómo esto puede ayudar al lector?**: Relaciona el caso con situaciones que los lectores podrían enfrentar.\n"
-        "- **Conclusión y próximos pasos**: Resume lo discutido y lleva al lector a reflexionar sobre el impacto del tema.\n"
-        "- **Artículos relacionados o próximos artículos**: Menciona artículos publicados o temas que serán tratados en el futuro.\n\n"
-        "- **IDIOMA DEL BLOG TÉCNICO: INGLÉS.\n\n"
-
-        f"**Contexto del video**:\n{context}\n\n"
-        f"**Transcript**:\n{cleaned_transcript}\n\n"
+        "Write a **technical blog post in English** for Medium based on the provided video context and transcript. "
+        "If the transcript is in another language, **extract key points and translate them into English** before writing the article. "
+        "The article should be **clear, concise, and engaging** for developers and tech companies, ensuring technical accuracy "
+        "while explaining complex concepts in an accessible way. Use a structured, logical flow with practical examples where relevant. "
+        "Include a **call to action** to encourage reader engagement. Keep it **professional yet approachable**.\n\n"
+        "Structure:\n"
+        "- **Introduction**: Briefly introduce the topic and why it matters.\n"
+        "- **Problem Statement**: Describe the issue faced.\n"
+        "- **Solution**: Explain how it was resolved with key details.\n"
+        "- **Challenges & Learnings**: Highlight obstacles and takeaways.\n"
+        "- **Relevance to the Reader**: Connect the topic to real-world applications.\n"
+        "- **Conclusion & Next Steps**: Summarize key points and suggest further reading.\n\n"
+        f"**Video Context**:\n{context}\n\n"
+        f"**Transcript** (can be in another language):\n{cleaned_transcript}\n\n"
     )
 
-    logger.info(f"prompt para blog: {prompt[:1000]}")
+    logger.info(f"Prompt for blog: {prompt[:1000]}")
     stream = ollama.chat(
         model="deepseek-r1",
         messages=[{'role': 'user', 'content': prompt}],
