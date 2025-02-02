@@ -1,9 +1,8 @@
 # YouTube Summary and Blog Generator
 
-This project leverages Generative AI (GenAI) to perform two main functionalities:
+This project leverages Generative AI (GenAI) to perform:
 
-1. **Video Summary**: Generates a concise summary of a YouTube video based on its transcript, description, and title.
-2. **Style Blog Post**: Creates a detailed blog post using the same input data.
+1. **Style Blog Post**: Creates a detailed blog post in English using a video from Youtube that could be in Spanish, Portugues or English (title, description and transcript).
 
 The application is fully containerized with Docker for easy setup and deployment.
 
@@ -113,7 +112,9 @@ An example `client_secrets.json` file format is shown below:
     }
 }
 ```
+### (Optional) Update `prompt.yaml` for Custom Prompts
 
+If you want to customize the prompt used by the `/video_blog` endpoint, you can update the `prompt.yaml` file located in the root directory of the project. This file allows you to define the structure and content of the prompt that will be used to generate the blog post.
 
 ### 3. Install dependencies: If you’re using Python-based dependencies, run:
 ```bash
