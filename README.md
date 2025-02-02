@@ -159,8 +159,12 @@ These examples demonstrate the capabilities of the application in generating blo
 ### Example Structure
 
 examples-blog-posts-generated/
-├── video1/ │ ├── info.txt │ └── blog_post.txt
-├── video2/ │ ├── info.txt │ └── blog_post.txt
+├── video1/
+│   ├── info.txt
+│   └── blog_post.txt
+├── video2/
+│   ├── info.txt
+│   └── blog_post.txt
 
 ## Model Performance, Execution Time, and Tokens (personal experience with this project)
 
