@@ -139,9 +139,12 @@ The application will be accessible at http://localhost:5000.
 **Method**: `GET`
 **Description**: Creates a blog post based on the video’s title, description, and transcript.
 
+**Optional Parameter**:
+- `use_openai`: If set to `true`, the blog post will be generated using OpenAI. If not provided, the default is `false`, and the blog post will be generated using the local model.
+
 **Example**:
 ```bash
-curl http://localhost:5000/video_blog/VIDEO_ID_YOUTUBE
+curl http://localhost:5000/video_blog/VIDEO_ID_YOUTUBE?use_openai=true
 ```
 
 ## Examples of Generated Blog Posts
