@@ -158,16 +158,15 @@ In the `examples-blog-posts-generated` folder, you will find two main directorie
 These examples demonstrate the capabilities of the application in generating blog posts from YouTube videos using different models.
 
 ### Example Structure
-
+```
 examples-blog-posts-generated/
 ├── video1/
 │   ├── info.txt
 │   └── blog_post.txt
-
 ├── video2/
 │   ├── info.txt
 │   └── blog_post.txt
-
+```
 ## Model Performance, Execution Time, and Tokens (personal experience with this project)
 
 When using OpenAI via API, the `/blog_post` endpoint executes in under 10 seconds, delivering consistent and accurate results.
