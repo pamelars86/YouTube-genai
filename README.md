@@ -63,9 +63,13 @@ llama3.1:latest       46e0X    4.9 GB    2 hours ago
 ## Setup
 
 ### 1. Create the `.env` File
-In the root of the project, create a `.env` file with the following variable:  YOUTUBE_API_KEY=<Your_YouTube_Data_API_Key>
+In the root of the project, create a `.env` file with the following variables:
 
+YOUTUBE_API_KEY=<Your_YouTube_Data_API_Key>
 Replace `<Your_YouTube_Data_API_Key>` with your actual API key from the Google Cloud Console.
+
+MODEL_TO_USE=<model_name>
+Replace `<model_name>` with the LLM that you want to test
 
 ---
 
