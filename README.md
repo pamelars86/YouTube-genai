@@ -162,6 +162,7 @@ examples-blog-posts-generated/
 ├── video1/
 │   ├── info.txt
 │   └── blog_post.txt
+
 ├── video2/
 │   ├── info.txt
 │   └── blog_post.txt
