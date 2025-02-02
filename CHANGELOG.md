@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased] - 2025-02-22
 ### Added
-- Added support for using OpenAI or models available in Ollama. The user can choose which model to use but needs to check the `README.md` file for OpenAI configuration.
+- Added support for using OpenAI or models available in Ollama. The user can choose if want to use OpenAI or not but needs to check the `README.md` file for OpenAI configuration.
 - Reorganized the endpoint structure. Now, there is only one endpoint: `/blog_post/<video_id>`, simplifying API interactions.
 
 ### Changed
