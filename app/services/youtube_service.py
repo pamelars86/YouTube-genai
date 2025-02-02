@@ -48,10 +48,12 @@ def get_youtube_video(video_id, withAPIKey=False):
             return {"error": "Video no encontrado"}
 
         video_info = response["items"][0]["snippet"]
+        video_info_id = response["items"][0]["id"]
         statistics = response["items"][0]["statistics"]
         content_details = response["items"][0]["contentDetails"]
 
         return {
+            "url": f"https://www.youtube.com/watch?v={video_info_id}",
             "title": video_info["title"],
             "description": video_info["description"],
             "channelTitle": video_info["channelTitle"],

@@ -5,6 +5,7 @@ import tempfile
 import re
 from dotenv import load_dotenv
 from openai import OpenAI
+import yaml
 
 
 load_dotenv()
@@ -22,34 +23,21 @@ def extract_response_text(stream):
             response_text += chunk['message'].content
         else:
             logger.info(f"The chunk does not have the expected format: {chunk}")
-    logger.info(f"Full text received: {response_text[:1000]}")
     return response_text
 
-def generate_prompt(context, transcript):
-    """Genera el prompt para la IA basado en el contexto y el transcript."""
-    return (
-        "Write a **technical blog post in English** for Medium based on the provided video context and transcript. "
-        "The transcript and context are provided in **English, Spanish, or Portuguese**. **First, translate them into English**, "
-        "then write the article based on that. "
-        "The article should be **clear, concise, and engaging** for developers and tech companies, ensuring technical accuracy "
-        "while explaining complex concepts in an accessible way. The post must be between **1000 and 1500 words**. "
-        "Use a structured, logical flow with practical examples where relevant. Include a **call to action** to encourage reader engagement. "
-        "Keep it **professional yet approachable**.\n\n"
-        "Structure:\n"
-        "- **Introduction**: Briefly introduce the topic and why it matters.\n"
-        "- **Problem Statement**: Describe the issue faced.\n"
-        "- **Solution**: Explain how it was resolved with key details.\n"
-        "- **Challenges & Learnings**: Highlight obstacles and takeaways.\n"
-        "- **Relevance to the Reader**: Connect the topic to real-world applications.\n"
-        "- **Conclusion & Next Steps**: Summarize key points and suggest further reading.\n\n"
-        f"**Video Context**:\n{context}\n\n"
-        f"*Transcript:\n{transcript}\n\n"
-        "Do not include the transcript in the final blog post. Use the transcript for reference only to generate the article."
-    )
+
+def load_prompt_template(file_path="prompt.yaml"):
+    with open(file_path, "r") as file:
+        config = yaml.safe_load(file)
+    return config.get("prompt_template")
+
+
+def generate_prompt(context, transcript, prompt_template):
+    return prompt_template.format(context=context, transcript=transcript)
 
 
 def generate_with_openai(prompt):
-    logger.info(f"[BLOG_POST]: Using OpenAI model: {OLLAMA_MODEL}")
+    logger.info(f"[BLOG_POST]: Using OpenAI model: {OPENAI_MODEL}")
 
     client = OpenAI(api_key=OPENAI_API_KEY)
     chat_completion = client.chat.completions.create(
@@ -89,7 +77,9 @@ def generate_blog_post(transcript, title=None, description=None, use_openai=Fals
         if description:
             context += f"Video description: {description}\n"
 
-        prompt = generate_prompt(context, transcript)
+        prompt_template = load_prompt_template()
+        prompt = generate_prompt(context, transcript, prompt_template)
+        logger.info(f"[BLOG_POST]: Prompt generated (preview): {prompt[:100]}")
 
         if use_openai:
             response_text = generate_with_openai(prompt)

@@ -33,10 +33,10 @@ def blog_post(video_id):
     blog_post = generate_blog_post(transcript, title=video_info["title"], description=video_info["description"], use_openai=use_openai)
 
 
-    execution_time_sec = time.time() - start_time
-    execution_time_min = execution_time_sec / 60
+    execution_time_sec = round(time.time() - start_time,3)
+    execution_time_min = round(execution_time_sec / 60,3)
 
     logger.info(f"[blog_post] Execution time: {execution_time_sec} seconds")
     logger.info(f"[blog_post] Execution time: {execution_time_min} minutes")
 
-    return jsonify({"video_info": video_info, "transcript": transcript, "blog_post": blog_post, use_openai: use_openai})
+    return jsonify({"video_info": video_info, "transcript": transcript, "blog_post": blog_post, "use_openai": use_openai, "execution_time_sec": execution_time_sec})

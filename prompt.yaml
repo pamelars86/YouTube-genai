@@ -8,6 +8,7 @@ prompt_template: |
   Keep it **professional yet approachable**.
 
   Structure:
+  - **Title**: Choose a catchy, informative title.
   - **Introduction**: Briefly introduce the topic and why it matters.
   - **Problem Statement**: Describe the issue faced.
   - **Solution**: Explain how it was resolved with key details.

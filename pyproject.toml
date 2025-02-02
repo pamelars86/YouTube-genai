@@ -19,6 +19,7 @@ logging = "^0.4.9.6"
 moviepy = "^2.1.1"
 whisper = "^1.1.10"
 ollama = "^0.4.7"
+pyyaml = "^6.0.2"
 
 
 [build-system]
