@@ -159,3 +159,20 @@ examples-blog-posts-generated/
 ├── video1/ │ ├── info.txt │ └── blog_post.txt
 ├── video2/ │ ├── info.txt │ └── blog_post.txt
 
+## Model Performance, Execution Time, and Tokens (personal experience with this project)
+
+When using OpenAI via API, the `/blog_post` endpoint executes in under 10 seconds, delivering consistent and accurate results.
+
+However, when using DeepSeek-R1 or Llama 3.1 models with Ollama locally, performance can be slower. These models may sometimes produce results that deviate from the prompt, and processing can take more than 5 minutes.
+
+### Explanation:
+- **Execution Time:** Local models such as DeepSeek-R1 and Llama 3.1 require more computational resources, which can result in longer processing times compared to OpenAI's API, depending on your hardware and system setup.
+- **Model Behavior:** While OpenAI provides reliable results within the prompt's context, local models like DeepSeek-R1 and Llama 3.1 may not consistently follow the prompt's instructions, especially for longer transcripts or non-English text. This is a limitation that can be seen when working locally with models like Ollama.
+
+### Tokens:
+Models process text in units called "tokens." Longer video transcripts increase the token count, which may lead to slower processing or incomplete results, particularly with local models.
+
+### Transcript Length and Language:
+For video transcripts of about 5 minutes, all models perform well. However, with longer transcripts, local models like Ollama may produce unexpected results, especially when the transcript isn't in English. The number of tokens increases with longer transcripts, and local models tend to handle these scenarios less effectively than OpenAI's API.
+
+Currently, this applies to videos up to 1 hour in length, where OpenAI provides reliable results. For longer videos or when using local models, performance may vary, and further testing or adjustments may be necessary.
