@@ -1,0 +1,24 @@
+prompt_template: |
+  Write a **technical blog post in English** for Medium based on the provided video context and transcript.
+  The transcript and context are provided in **English, Spanish, or Portuguese**. **First, translate them into English**,
+  then write the article based on that.
+  The article should be **clear, concise, and engaging** for developers and tech companies, ensuring technical accuracy
+  while explaining complex concepts in an accessible way. The post must be between **1000 and 1500 words**.
+  Use a structured, logical flow with practical examples where relevant. Include a **call to action** to encourage reader engagement.
+  Keep it **professional yet approachable**.
+
+  Structure:
+  - **Introduction**: Briefly introduce the topic and why it matters.
+  - **Problem Statement**: Describe the issue faced.
+  - **Solution**: Explain how it was resolved with key details.
+  - **Challenges & Learnings**: Highlight obstacles and takeaways.
+  - **Relevance to the Reader**: Connect the topic to real-world applications.
+  - **Conclusion & Next Steps**: Summarize key points and suggest further reading.
+
+  **Video Context**:
+  {context}
+
+  *Transcript:
+  {transcript}
+
+  Do not include the transcript in the final blog post. Use the transcript for reference only to generate the article.

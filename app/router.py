@@ -1,4 +1,8 @@
 from flask import jsonify
+from flask import request
+
+from app import logger
+
 from app.services.youtube_service import get_video_transcript, get_youtube_video, get_all_youtube_videos
 from app.services.summary_service import generate_blog_post
 from . import app
@@ -20,11 +24,19 @@ def all_videos():
 def blog_post(video_id):
     start_time = time.time()
 
+    use_openai = request.args.get('use_openai', 'false').lower() == 'true'
+
+
     video_info = get_youtube_video(video_id, withAPIKey=True)
     transcript = get_video_transcript(video_id)
-    blog_post = generate_blog_post(transcript, video_info["title"], video_info["description"])
 
-    execution_time = (time.time() - start_time) / 60
-    print(f"[blog_post] Execution time: {execution_time} minutes")
-    return jsonify({"video_info": video_info, "transcript": transcript, "blog_post": blog_post})
+    blog_post = generate_blog_post(transcript, title=video_info["title"], description=video_info["description"], use_openai=use_openai)
 
+
+    execution_time_sec = time.time() - start_time
+    execution_time_min = execution_time_sec / 60
+
+    logger.info(f"[blog_post] Execution time: {execution_time_sec} seconds")
+    logger.info(f"[blog_post] Execution time: {execution_time_min} minutes")
+
+    return jsonify({"video_info": video_info, "transcript": transcript, "blog_post": blog_post, use_openai: use_openai})
