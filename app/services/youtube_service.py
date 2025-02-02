@@ -48,10 +48,12 @@ def get_youtube_video(video_id, withAPIKey=False):
             return {"error": "Video no encontrado"}
 
         video_info = response["items"][0]["snippet"]
+        video_info_id = response["items"][0]["id"]
         statistics = response["items"][0]["statistics"]
         content_details = response["items"][0]["contentDetails"]
 
         return {
+            "url": f"https://www.youtube.com/watch?v={video_info_id}",
             "title": video_info["title"],
             "description": video_info["description"],
             "channelTitle": video_info["channelTitle"],
@@ -72,19 +74,33 @@ def get_all_youtube_videos():
     return response['items']
 
 
-def get_video_transcript(video_id):
-    languages_to_try = ['en', 'es', 'pt']
-    formatter = TextFormatter()
+def get_video_transcript(video_id, title=None, description=None):
+    try:
 
-    for lang in languages_to_try:
-        try:
-            transcript = YouTubeTranscriptApi.get_transcript(video_id, languages=[lang])
+        transcripts = YouTubeTranscriptApi.list_transcripts(video_id)
+        available_languages = [t.language_code for t in transcripts]
 
-            formatted_transcript = formatter.format_transcript(transcript)
+        languages_to_try = ['en', 'es', 'pt']
 
-            return formatted_transcript
-        except Exception as e:
-            logger.error(f"Could not retrieve transcript in '{lang}'. Error: {e}")
+        for lang in languages_to_try:
+            if lang in available_languages:
+                manual_transcript = next((t for t in transcripts if not t.is_generated and lang in t.language_code), None)
+                if manual_transcript:
+                    logger.info(f"✅ Using manual transcript in {lang}")
+                    transcript_data = manual_transcript.fetch()
+                else:
+                    auto_transcript = next((t for t in transcripts if t.is_generated and lang in t.language_code), None)
+                    if auto_transcript:
+                        logger.warning(f"⚠️ Using auto-generated transcript in {lang}. It may contain errors.")
+                        transcript_data = auto_transcript.fetch()
 
-    logger.error("No transcript found in any of the specified languages.")
-    return None
+                if transcript_data:
+                    transcript_text = "\n".join([entry['text'] for entry in transcript_data])
+                    return transcript_text
+
+        logger.error("❌ No transcript available in the specified languages.")
+        return None
+
+    except Exception as e:
+        logger.error(f"❌ Error retrieving transcripts: {e}")
+        return None
