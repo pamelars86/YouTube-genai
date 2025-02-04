@@ -2,7 +2,11 @@
 
 This project leverages Generative AI (GenAI) to perform:
 
-1. **Style Blog Post**: Creates a detailed blog post in English using a video from Youtube that could be in Spanish, Portugues or English (title, description and transcript).
+1. **Style Blog Post**: Creates a detailed blog post in English using a video from YouTube that could be in Spanish, Portuguese, or English (title, description, and transcript).
+
+2. **Style Slack Post**: Creates a Slack post in English using a video from YouTube that could be in Spanish, Portuguese, or English (title, description, and transcript).
+
+This serves as a base to expedite content generation, and it is suggested to add a more personal/human tone to the results.
 
 The application is fully containerized with Docker for easy setup and deployment.
 
@@ -139,6 +143,12 @@ The application will be accessible at http://localhost:5000.
 **Endpoint**: `/blog_post/<video_id_youtube>`
 **Method**: `GET`
 **Description**: Creates a blog post based on the video’s title, description, and transcript.
+
+### 2. Slack Post Generator
+**Endpoint**: `/slack_post/<video_id_youtube>`
+**Method**: `GET`
+**Description**: Creates a slack post based on the video’s title, description, and transcript.
+
 
 **Optional Parameter**:
 - `use_openai`: If set to `true`, the blog post will be generated using OpenAI. If not provided, the default is `false`, and the blog post will be generated using the local model.
