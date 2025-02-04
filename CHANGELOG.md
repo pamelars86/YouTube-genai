@@ -2,7 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.0.1] - 2025-02-22
+## [1.1.0] - 2025-02-04
+### Added
+- Added a new endpoint: `/slack_post/<video_id>`, allowing users to generate Slack posts from video content.
+
+### Changed
+- Renamed parameters in `prompt.yaml` to allow customization of prompts for Slack posts.
+
+## [1.0.1] - 2025-02-02
+
 ### Added
 - Added support for using OpenAI or models available in Ollama. Users can choose whether to use OpenAI, but they need to check the `README.md` file for OpenAI configuration.
 - Reorganized the endpoint structure. Now, there is only one endpoint: `/blog_post/<video_id>`, simplifying API interactions.

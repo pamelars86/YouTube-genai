@@ -1,4 +1,4 @@
-prompt_template: |
+prompt_blog_template: |
   Write a **technical blog post in English** for Medium based on the provided video context and transcript.
   The transcript and context are provided in **English, Spanish, or Portuguese**. **First, translate them into English**,
   then write the article based on that.
@@ -17,6 +17,23 @@ prompt_template: |
   - **Relevance to the Reader**: Connect the topic to real-world applications.
   - **Conclusion & Next Steps**: Summarize key points and suggest further reading.
 
+  **Video Context**:
+  {context}
+
+  *Transcript:
+  {transcript}
+
+  Do not include the transcript in the final blog post. Use the transcript for reference only to generate the article.
+
+prompt_slack_template: |
+  Write a **Slack post in English** based on the provided video context and transcript.
+  The transcript and context are provided in **English, Spanish, or Portuguese**.
+  The post should include:
+  1. A **friendly and engaging greeting**.
+  2. A **brief but informative summary** of the video’s key points, highlighting why it's relevant for developers.
+  3. A **clear call to action**, encouraging engagement (e.g., watch the video, try something out, share thoughts, or discuss).
+  4. The **link to the video**.
+  Keep it **concise yet engaging** (around 5-6 sentences), using a tone that resonates with developers.
   **Video Context**:
   {context}
 

@@ -74,7 +74,7 @@ def get_all_youtube_videos():
     return response['items']
 
 
-def get_video_transcript(video_id, title=None, description=None):
+def get_video_transcript(video_id):
     try:
 
         transcripts = YouTubeTranscriptApi.list_transcripts(video_id)
