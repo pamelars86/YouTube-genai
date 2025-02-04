@@ -118,7 +118,7 @@ An example `client_secrets.json` file format is shown below:
 ```
 ### (Optional) Update `prompt.yaml` for Custom Prompts
 
-If you want to customize the prompt used by `/blog_post` & `/slack_post` endpoints, you can update the `prompt.yaml` file located in the root directory of the project. This file allows you to define the structure and content of the prompt that will be used to generate the blog post.
+If you want to customize the prompt used by `/blog_post` & `/slack_post` endpoints, you can update the `prompt.yaml` file located in the root directory of the project. This file allows you to define the structure and content of the prompt(s).
 
 ### 3. Install dependencies: If you’re using Python-based dependencies, run:
 ```bash
