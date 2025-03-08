@@ -23,7 +23,8 @@ Make sure the following files are available in your project directory:
 - `client_secrets.json`: Configured for your **Google Cloud service account**.
 
 
-## Setting Up the Models
+## Setting Up the Models (only if you are running Ollama inside the Docker container)
+Firstly, you will need to use `docker-compose-ollamadockerized.yml` instead of the content of docker-compose.yml of this repo.
 
 To ensure the correct models are available in your Docker container, follow these steps:
 
@@ -33,9 +34,9 @@ To ensure the correct models are available in your Docker container, follow thes
     docker-compose up
     ```
 
-2. **Download the required models (only if you are running Ollama inside Dockerninside the Docker container)**.
+2. **Download the required models**.
 
-Firstly, you will need to use `docker-compose-ollamadockerized.yml` instead of the content of docker-compose.yml of this repo. Then, you can pull multiple, such as `deepseek-r1` and `llama3.1`, using the following command:
+ Then, you can pull multiple, such as `deepseek-r1` and `llama3.1`, using the following command:
 
     ```bash
     docker exec -it ollama ollama pull deepseek-r1
