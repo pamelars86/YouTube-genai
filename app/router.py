@@ -2,6 +2,7 @@ import os
 from dotenv import load_dotenv
 
 from flask import jsonify
+from flask import send_from_directory
 from flask import request
 
 from app import logger
@@ -18,8 +19,9 @@ PROMPT_SLACK = os.getenv("PROMPT_SLACK")
 
 
 @app.route('/')
-def index():
-    return "Welcome to the YouTube Summary App!"
+def serve_frontend():
+    return send_from_directory(app.static_folder, 'index.html')
+
 
 # Route to get all YouTube videos
 @app.route('/all_videos', methods=['GET'])
