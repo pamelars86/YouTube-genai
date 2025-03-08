@@ -21,12 +21,6 @@ Before starting, ensure you have the following installed:
 Make sure the following files are available in your project directory:
 - `.env`: Contains your **API key**.
 - `client_secrets.json`: Configured for your **Google Cloud service account**.
-- **Downloaded model**: Ensure you have the required model, such as `deepseek-r1` or `llama3.1` , available in the correct directory. To download the model, use the following command:
-
-```bash
-docker exec -it ollama ollama pull deepseek-r1
-docker exec -it ollama ollama pull llama3.1
-```
 
 
 ## Setting Up the Models
@@ -39,7 +33,9 @@ To ensure the correct models are available in your Docker container, follow thes
     docker-compose up
     ```
 
-2. **Download the required models** inside the Docker container. You can pull multiple, such as `deepseek-r1` and `llama3.1`, using the following command:
+2. **Download the required models (only if you are running Ollama inside Dockerninside the Docker container)**.
+
+Firstly, you will need to use `docker-compose-ollamadockerized.yml` instead of the content of docker-compose.yml of this repo. Then, you can pull multiple, such as `deepseek-r1` and `llama3.1`, using the following command:
 
     ```bash
     docker exec -it ollama ollama pull deepseek-r1
@@ -47,8 +43,6 @@ To ensure the correct models are available in your Docker container, follow thes
     ```
 
     This will download the specified models into the Ollama container.
-
-## Verifying Available Models
 
 Once your Docker container is running, you can verify the models that are installed in the Ollama container with the following command:
 

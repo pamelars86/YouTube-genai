@@ -34,7 +34,7 @@
             margin-bottom: 5px;
             color: #555;
         }
-        input[type="text"] {
+        input[type="text"], select {
             width: 100%;
             padding: 8px;
             border: 1px solid #ccc;
@@ -90,9 +90,47 @@
             overflow-x: auto;
             margin-top: 20px;
             height: 500px;
+            display: none;
+        }
+        #execution-time {
+            margin-top: 10px;
+            color: #555;
         }
     </style>
+</head>
+<body>
+    <div class="container">
+        <h1>DevRel - YouTube Summary</h1>
+        <div class="form-group">
+            <label for="videoId">Enter YouTube Video ID</label>
+            <input type="text" id="videoId" placeholder="Enter YouTube Video ID">
+        </div>
 
+
+        <div class="form-group">
+            <label>Use OpenAI:</label>
+            <div class="radio-group">
+                <label><input type="radio" name="useOpenAI" value="true"> Yes</label>
+                <label><input type="radio" name="useOpenAI" value="false" checked> No</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="action">Select Action:</label>
+            <select id="action">
+                <option value="blog_post">Generate Blog Post</option>
+                <option value="slack_post">Generate Slack Post</option>
+            </select>
+        </div>
+        <button onclick="getPost()">Get post</button>
+        <div class="spinner" id="spinner">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+        <div id="execution-time"></div>
+        <div id="result"></div>
+    </div>
     <script>
         const observer = new MutationObserver(() => {
         const result = document.getElementById('result');
@@ -105,49 +143,28 @@
 
         observer.observe(document.getElementById('result'), { childList: true });
     </script>
-</head>
-<body>
-    <div class="container">
-        <h1>DevRel - YouTube Summary</h1>
-        <div class="form-group">
-            <label for="videoId">Enter YouTube Video ID</label>
-            <input type="text" id="videoId" placeholder="Enter YouTube Video ID">
-        </div>
-        <div class="form-group">
-            <label>Use OpenAI:</label>
-            <div class="radio-group">
-                <label><input type="radio" name="useOpenAI" value="true"> Yes</label>
-                <label><input type="radio" name="useOpenAI" value="false" checked> No</label>
-            </div>
-        </div>
-        <button onclick="getBlogPost()">Get Blog Post</button>
-        <div class="spinner" id="spinner">
-            <div class="bounce1"></div>
-            <div class="bounce2"></div>
-            <div class="bounce3"></div>
-        </div>
-        <div id="result"></div>
-    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/marked@4.3.0/lib/marked.umd.min.js"></script>
     <script>
-        async function getBlogPost() {
+        async function getPost() {
             const videoId = document.getElementById('videoId').value;
             const useOpenAI = document.querySelector('input[name="useOpenAI"]:checked').value;
+            const action = document.getElementById('action').value;
             const spinner = document.getElementById('spinner');
             const result = document.getElementById('result');
+            const executionTime = document.getElementById('execution-time');
 
             spinner.style.display = 'flex';
             result.innerHTML = '';
+            executionTime.innerHTML = '';
 
             try {
-                const response = await fetch(`/blog_post/${videoId}?use_openai=${useOpenAI}`);
+                const response = await fetch(`/${action}/${videoId}?use_openai=${useOpenAI}`);
                 const data = await response.json();
-                const html = marked.parse(data.blog_post);
-                result.innerHTML = html;
+                result.innerHTML = marked.parse(data[action]);
+                executionTime.innerHTML = `Execution time: ${data.execution_time_sec} seconds`;
             } catch (error) {
-                console.error('Error', error);
-                result.innerHTML = 'Error =(';
+                result.innerHTML = `Error fetching post: ${error.message}`;
             } finally {
                 spinner.style.display = 'none';
             }
