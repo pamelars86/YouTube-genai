@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.0] - 2025-02-10
+### Added
+- Added a frontend interface that calls the `/blog_post/<video_id>` and `/slack_post/<video_id>` endpoints, providing a user-friendly way to generate blog and Slack posts from video content.
+
 ## [1.1.0] - 2025-02-04
 ### Added
 - Added a new endpoint: `/slack_post/<video_id>`, allowing users to generate Slack posts from video content.
