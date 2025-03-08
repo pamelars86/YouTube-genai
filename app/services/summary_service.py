@@ -13,6 +13,7 @@ load_dotenv()
 OLLAMA_MODEL = os.getenv("OLLAMA_MODEL")
 OPENAI_MODEL = os.getenv("OPENAI_MODEL")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+OLLAMA_BASE_URL = "http://host.docker.internal:11434"
 
 transcript_dir = '/app/transcripts'
 
@@ -60,9 +61,7 @@ def generate_with_ollama(prompt):
 
 def generate_with_ollama_localhost(prompt):
     logger.info(f"[POST]: Using Ollama model (localhost): {OLLAMA_MODEL}")
-    OLLAMA_BASE_URL = "http://host.docker.internal:11434"
 
-    # Mensajes para el modelo (con el transcript como contexto)
     payload = {
         "model": OLLAMA_MODEL,
         "messages": [
@@ -75,20 +74,17 @@ def generate_with_ollama_localhost(prompt):
 
     response = requests.post(f"{OLLAMA_BASE_URL}/api/chat", json=payload)
 
-     # Verifica si la respuesta es válida
     if response.status_code != 200:
-        logger.error("Error en la respuesta de Ollama: %s", response.text)
+        logger.error("Error in Ollama response: %s", response.text)
         return None
 
-    # Revisa el contenido de la respuesta antes de parsear JSON
     logger.info("Response text: %s", response.text)
 
     try:
         data = response.json()
-        logger.info("JSON recibido: %s", data)
         return data.get("message", {}).get("content", "")
     except ValueError:
-        logger.error("No se pudo parsear la respuesta como JSON")
+        logger.error("Failed to parse the response as JSON")
         return None
 
 
