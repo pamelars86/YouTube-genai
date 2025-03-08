@@ -77,9 +77,6 @@ def generate_with_ollama_localhost(prompt):
     if response.status_code != 200:
         logger.error("Error in Ollama response: %s", response.text)
         return None
-
-    logger.info("Response text: %s", response.text)
-
     try:
         data = response.json()
         return data.get("message", {}).get("content", "")

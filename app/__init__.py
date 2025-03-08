@@ -1,11 +1,11 @@
-from flask import Flask
+from flask import Flask, send_from_directory
 import logging
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-# Inicializar la aplicación Flask
-app = Flask(__name__)
+#app = Flask(__name__)
+app = Flask(__name__, static_folder='../frontend', static_url_path='/')
 
-# Importar rutas (esto asegura que las rutas se registren al inicializar la app)
 from app.router import *
+
