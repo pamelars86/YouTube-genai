@@ -181,16 +181,18 @@ examples-blog-posts-generated/
 
 When using OpenAI via API, the `/blog_post` endpoint executes in under 10 seconds, delivering consistent and accurate results.
 
-However, when using DeepSeek-R1 or Llama 3.1 models with Ollama locally, performance can be slower. These models may sometimes produce results that deviate from the prompt, and processing can take more than 5 minutes.
+However, when using DeepSeek-R1 or Llama 3.1 models with Ollama, performance can vary depending on the setup. Initially, I experienced very slow response times (over 5 minutes for transcripts of around 1 hour), but this was due to running the Ollama Docker image, which did not utilize my Mac M3’s GPU.
 
 ### Explanation:
-- **Execution Time:** Local models such as DeepSeek-R1 and Llama 3.1 require more computational resources, which can result in longer processing times compared to OpenAI's API, depending on your hardware and system setup.
-- **Model Behavior:** While OpenAI provides reliable results within the prompt's context, local models like DeepSeek-R1 and Llama 3.1 may not consistently follow the prompt's instructions, especially for longer transcripts or non-English text. This is a limitation that can be seen when working locally with models like Ollama.
+- **Execution Time:** Execution Time: Local models such as DeepSeek-R1 and Llama 3.1 require more computational resources, and performance depends on how they are run. When running Ollama natively on macOS, it leverages Apple’s Metal API, significantly improving speed. However, when using the Dockerized Ollama image, performance is much slower because Docker cannot access the Mac’s GPU.
+- **Recommended Setup:** If you are on a Mac with an M-series chip, it is best to run Ollama natively and have the Flask app communicate with it via API. If you still want to run Ollama inside Docker, use the `docker-compose-ollamadockerized.yml` file available in this repo.
 
 ### Tokens:
-Models process text in units called "tokens." Longer video transcripts increase the token count, which may lead to slower processing or incomplete results, particularly with local models.
+Models process text in units called "tokens." Longer video transcripts increase the token count, which can impact processing time. Performance varies depending on the model and hardware—local models may experience slower processing or incomplete results if they lack sufficient computational resources.
 
 ### Transcript Length and Language:
-For video transcripts of about 5 minutes, all models perform well. However, with longer transcripts, local models like Ollama may produce unexpected results, especially when the transcript isn't in English. The number of tokens increases with longer transcripts, and local models tend to handle these scenarios less effectively than OpenAI's API.
+For video transcripts of about 5 minutes, all models perform well.
 
-Currently, this applies to videos up to 1 hour in length, where OpenAI provides reliable results. For longer videos or when using local models, performance may vary, and further testing or adjustments may be necessary.
+For transcripts up to 1 hour, OpenAI (via API) and models run with Ollama (when executed natively on macOS) both provide reliable results in a reasonable time, with OpenAI performing slightly better in my subjective evaluation. However, I did not conduct formal benchmarking. For longer videos or when using local models inside Docker, performance may vary, and further testing or adjustments may be necessary.
+
+
