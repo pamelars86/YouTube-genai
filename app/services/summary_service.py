@@ -6,6 +6,7 @@ import re
 from dotenv import load_dotenv
 from openai import OpenAI
 import yaml
+import requests
 
 
 load_dotenv()
@@ -57,6 +58,40 @@ def generate_with_ollama(prompt):
     return extract_response_text(stream)
 
 
+def generate_with_ollama_localhost(prompt):
+    logger.info(f"[POST]: Using Ollama model (localhost): {OLLAMA_MODEL}")
+    OLLAMA_BASE_URL = "http://host.docker.internal:11434"
+
+    # Mensajes para el modelo (con el transcript como contexto)
+    payload = {
+        "model": OLLAMA_MODEL,
+        "messages": [
+            {"role": "system", "content": "Eres un asistente experto en resumir transcripts de videos. Devuelve un resumen conciso con los puntos clave más importantes."},
+            {"role": "user", "content": prompt},
+        ],
+        "stream": False  # Cambia a True si quieres respuesta en streaming
+    }
+
+
+    response = requests.post(f"{OLLAMA_BASE_URL}/api/chat", json=payload)
+
+     # Verifica si la respuesta es válida
+    if response.status_code != 200:
+        logger.error("Error en la respuesta de Ollama: %s", response.text)
+        return None
+
+    # Revisa el contenido de la respuesta antes de parsear JSON
+    logger.info("Response text: %s", response.text)
+
+    try:
+        data = response.json()
+        logger.info("JSON recibido: %s", data)
+        return data.get("message", {}).get("content", "")
+    except ValueError:
+        logger.error("No se pudo parsear la respuesta como JSON")
+        return None
+
+
 def clean_response(response_text):
     return re.sub(r'<think>.*?</think>', '', response_text, flags=re.DOTALL)
 
@@ -84,7 +119,7 @@ def generate_post(transcript, title=None, description=None, use_openai=False, pr
         if use_openai:
             response_text = generate_with_openai(prompt)
         else:
-            response_text = generate_with_ollama(prompt)
+            response_text = generate_with_ollama_localhost(prompt)
 
         logger.info(f"[{prompt_name_template}]: Ending process to generate post")
 

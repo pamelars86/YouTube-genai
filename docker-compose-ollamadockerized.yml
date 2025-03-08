@@ -1,0 +1,34 @@
+services:
+  youtube-genai:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_APP=app.py
+      - FLASK_ENV=development
+      - GENAI_SCOPE=local_prod
+      - OLLAMA_HOST=http://ollama:11434
+
+    volumes:
+      - .:/app
+    networks:
+      - app-network
+    depends_on:
+      - ollama
+
+  ollama:
+    image: ollama/ollama
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama:/root/.ollama
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  ollama:
